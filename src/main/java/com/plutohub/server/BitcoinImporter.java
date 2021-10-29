@@ -49,7 +49,7 @@ public class BitcoinImporter extends BitcoinJob {
         final long beginTime = System.currentTimeMillis();
 
         database.begin();
-        database.getTransaction().setUseWAL(false);
+        database.setUseWAL(false);
 
         final MutableVertex importVertex = database.newVertex("Import");
         importVertex.set("beginTime", beginTime);

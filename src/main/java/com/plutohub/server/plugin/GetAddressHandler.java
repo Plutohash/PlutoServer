@@ -24,13 +24,13 @@ package com.plutohub.server.plugin;
 import com.arcadedb.database.Database;
 import com.arcadedb.graph.Vertex;
 import com.arcadedb.index.IndexCursor;
+import com.arcadedb.server.security.ServerSecurityUser;
 import com.plutohub.server.BitcoinSchema;
 import io.undertow.server.HttpServerExchange;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import java.util.Deque;
-import java.util.Iterator;
+import java.util.*;
 
 public class GetAddressHandler extends PlutoHttpHandler {
   public GetAddressHandler(final BackendPlugin backend) {
@@ -38,7 +38,7 @@ public class GetAddressHandler extends PlutoHttpHandler {
   }
 
   @Override
-  protected void execute(final HttpServerExchange exchange) throws Exception {
+  protected void execute(final HttpServerExchange exchange, final ServerSecurityUser user) throws Exception {
     final Deque<String> idParam = exchange.getQueryParameters().get("id");
     if (idParam == null || idParam.isEmpty()) {
       exchange.setStatusCode(400);
@@ -56,7 +56,7 @@ public class GetAddressHandler extends PlutoHttpHandler {
 
         final JSONObject ret = new JSONObject();
 
-        final JSONObject result = httpServer.getJsonSerializer().serializeRecord(address);
+        final JSONObject result = httpServer.getJsonSerializer().serializeDocument(address);
         ret.put("result", result);
 
         final JSONArray inputs = new JSONArray();

@@ -17,26 +17,33 @@
                 <enabled>true</enabled>
             </snapshots>
             <releases>
-                <enabled>true</enabled>
+                <enabled>false</enabled>
             </releases>
         </repository>
     </repositories>
+
+    <properties>
+        <maven.compiler.source>11</maven.compiler.source>
+        <maven.compiler.target>11</maven.compiler.target>
+        <arcadedb.version>21.10.2</arcadedb.version>
+        <bitcoinj.version>0.16-beta2</bitcoinj.version>
+    </properties>
 
     <dependencies>
         <dependency>
             <groupId>org.bitcoinj</groupId>
             <artifactId>bitcoinj-core</artifactId>
-            <version>0.16-SNAPSHOT</version>
+            <version>${bitcoinj.version}</version>
         </dependency>
         <dependency>
-            <groupId>com.arcadedata</groupId>
+            <groupId>com.arcadedb</groupId>
             <artifactId>arcadedb-engine</artifactId>
-            <version>21.9.1-SNAPSHOT</version>
+            <version>${arcadedb.version}</version>
         </dependency>
         <dependency>
-            <groupId>com.arcadedata</groupId>
+            <groupId>com.arcadedb</groupId>
             <artifactId>arcadedb-server</artifactId>
-            <version>21.9.1-SNAPSHOT</version>
+            <version>${arcadedb.version}</version>
         </dependency>
         <dependency>
             <groupId>org.slf4j</groupId>
@@ -45,10 +52,5 @@
         </dependency>
 
     </dependencies>
-
-    <properties>
-        <maven.compiler.source>11</maven.compiler.source>
-        <maven.compiler.target>11</maven.compiler.target>
-    </properties>
 
 </project>

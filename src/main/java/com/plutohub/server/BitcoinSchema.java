@@ -28,20 +28,19 @@ public class BitcoinSchema {
 
     final VertexType addressType = database.getSchema().getOrCreateVertexType(VERTEX_ADDRESS);
     final Property addressHash = addressType.getOrCreateProperty("hash", Type.STRING); // TODO: RENAME IN ID
-    database.transaction((db) -> {
+    database.transaction(() -> {
       addressHash.getOrCreateIndex(Schema.INDEX_TYPE.LSM_TREE, true);
     });
 
     final VertexType tx = database.getSchema().getOrCreateVertexType(VERTEX_TRANSACTION);
     final Property txId = tx.getOrCreateProperty("id", Type.STRING);
-    database.transaction((db) -> {
+    database.transaction(() -> {
       txId.getOrCreateIndex(Schema.INDEX_TYPE.LSM_TREE, true);
     });
 
     final VertexType blockType = database.getSchema().getOrCreateVertexType(VERTEX_BLOCK);
     final Property blockHash = blockType.getOrCreateProperty("hash", Type.STRING);
-    database.transaction((db) -> {
-      blockHash.getOrCreateIndex(Schema.INDEX_TYPE.LSM_TREE, true);
+    database.transaction(() -> {
     });
     blockType.setBucketSelectionStrategy(new PartitionedBucketSelectionStrategy(new String[] { "hash" }));
 

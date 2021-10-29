@@ -24,11 +24,12 @@ package com.plutohub.server.plugin;
 import com.arcadedb.database.Database;
 import com.arcadedb.graph.Vertex;
 import com.arcadedb.index.IndexCursor;
+import com.arcadedb.server.security.ServerSecurityUser;
 import com.plutohub.server.BitcoinSchema;
 import io.undertow.server.HttpServerExchange;
 import org.json.JSONObject;
 
-import java.util.Deque;
+import java.util.*;
 
 public class GetTransactionHandler extends PlutoHttpHandler {
   public GetTransactionHandler(final BackendPlugin backend) {
@@ -36,7 +37,7 @@ public class GetTransactionHandler extends PlutoHttpHandler {
   }
 
   @Override
-  protected void execute(final HttpServerExchange exchange) throws Exception {
+  protected void execute(final HttpServerExchange exchange, final ServerSecurityUser user) {
     final Deque<String> idParam = exchange.getQueryParameters().get("id");
     if (idParam == null || idParam.isEmpty()) {
       exchange.setStatusCode(400);
@@ -53,7 +54,7 @@ public class GetTransactionHandler extends PlutoHttpHandler {
         final Vertex transaction = cursor.next().asVertex();
 
         exchange.setStatusCode(200);
-        final JSONObject response = new JSONObject().put("result", httpServer.getJsonSerializer().serializeRecord(transaction));
+        final JSONObject response = new JSONObject().put("result", httpServer.getJsonSerializer().serializeDocument(transaction));
         exchange.getResponseSender().send(response.toString(isCompressOutput(exchange) ? 0 : 2));
       } else {
         exchange.setStatusCode(404);

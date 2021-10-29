@@ -29,7 +29,7 @@ public class DatabaseJob {
       database.commit();
 
     database.begin();
-    database.getTransaction().setUseWAL(false);
+    database.setUseWAL(false);
   }
 
   protected void loadSettings() {

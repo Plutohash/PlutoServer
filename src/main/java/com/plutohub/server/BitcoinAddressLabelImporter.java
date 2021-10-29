@@ -1,18 +1,12 @@
 package com.plutohub.server;
 
-import com.arcadedb.database.Database;
 import com.arcadedb.database.DatabaseFactory;
-import com.arcadedb.database.async.ErrorCallback;
-import com.arcadedb.engine.WALFile;
 import com.arcadedb.graph.MutableVertex;
 import com.arcadedb.graph.Vertex;
 import com.arcadedb.index.IndexCursor;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
-import java.io.IOException;
-import java.util.concurrent.atomic.AtomicLong;
+import java.io.*;
+import java.util.concurrent.atomic.*;
 
 public class BitcoinAddressLabelImporter extends DatabaseJob {
   // SETTINGS, THE USER CAN OVERRIDE BY SETTING PROPERTIES AT JVM LEVEL

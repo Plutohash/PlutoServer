@@ -24,6 +24,7 @@ package com.plutohub.server.plugin;
 import com.arcadedb.database.Database;
 import com.arcadedb.graph.Vertex;
 import com.arcadedb.index.IndexCursor;
+import com.arcadedb.server.security.ServerSecurityUser;
 import com.plutohub.server.BitcoinSchema;
 import io.undertow.server.HttpServerExchange;
 import org.json.JSONObject;
@@ -36,7 +37,7 @@ public class GetBlockHandler extends PlutoHttpHandler {
   }
 
   @Override
-  protected void execute(final HttpServerExchange exchange) throws Exception {
+  protected void execute(final HttpServerExchange exchange, final ServerSecurityUser user) throws Exception {
     final Deque<String> idParam = exchange.getQueryParameters().get("id");
     if (idParam == null || idParam.isEmpty()) {
       exchange.setStatusCode(400);
@@ -53,7 +54,7 @@ public class GetBlockHandler extends PlutoHttpHandler {
         final Vertex block = cursor.next().asVertex();
 
         exchange.setStatusCode(200);
-        final JSONObject response = new JSONObject().put("result", httpServer.getJsonSerializer().serializeRecord(block));
+        final JSONObject response = new JSONObject().put("result", httpServer.getJsonSerializer().serializeDocument(block));
         exchange.getResponseSender().send(response.toString(isCompressOutput(exchange) ? 0 : 2));
 
       } else {
